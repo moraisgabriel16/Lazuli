@@ -104,3 +104,14 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
+
+// Rota para retornar categorias únicas (padronizadas)
+app.get('/categories', (req, res) => {
+  const categoriesSet = new Set();
+  db.forEach(entry => {
+    if (entry.category) {
+      categoriesSet.add(entry.category.trim().toLowerCase());
+    }
+  });
+  res.json(Array.from(categoriesSet));
+});
